@@ -1,0 +1,47 @@
+services:
+  evolution-api:
+    image: atendai/evolution-api:latest
+    container_name: evolution-api
+    environment:
+      TZ: America/SaoPaulo
+      INTEGRATION: WHATSAPP
+      PROVIDER: BAILEYS
+      INTEGRATION_ENABLE: "true"
+    ports:
+      - "8082:8080"
+    env_file:
+      - .env
+    volumes:
+      - evolution_sessions:/evolution/sessions
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: evolution-redis
+    command: redis-server --save "" --appendonly no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17
+    container_name: evolution-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: suporte
+      POSTGRES_PASSWORD: 1480aunu
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  evolution_sessions:
