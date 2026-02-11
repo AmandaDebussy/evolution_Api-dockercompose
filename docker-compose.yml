@@ -1,6 +1,6 @@
 services:
   evolution-api:
-    image: atendai/evolution-api:latest
+    image: evoapicloud/evolution-api:v2.3.4
     container_name: evolution-api
     environment:
       TZ: America/SaoPaulo
