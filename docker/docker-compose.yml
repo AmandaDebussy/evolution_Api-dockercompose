@@ -36,8 +36,8 @@ services:
     container_name: evolution-postgres
     environment:
       POSTGRES_DB: postgres
-      POSTGRES_USER: suporte
-      POSTGRES_PASSWORD: 1480aunu
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: 1234senha
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
